@@ -7,7 +7,7 @@ function FooterComponent() {
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="space-y-2">
             <h6 className="text-lg font-semibold text-red-600 dark:text-red-400">
-              Accommodations for fun.
+              Accommodations for fun
             </h6>
           </div>
 

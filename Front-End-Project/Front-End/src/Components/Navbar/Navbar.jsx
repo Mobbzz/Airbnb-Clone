@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../../Context/UserContext';
 import { useTheme } from '../../Context/ThemeContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser, faHamburger } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser, faHamburger, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const NavbarComponent = () => {
   const user = useUser();
@@ -79,9 +79,12 @@ const NavbarComponent = () => {
           )}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition ease-in-out duration-300"
+            className="p-2 rounded-full focus:outline-none transition ease-in-out duration-300"
           >
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            <FontAwesomeIcon
+              icon={theme === 'light' ? faMoon : faSun}
+              className="text-2xl text-gray-800 dark:text-yellow-300 hover:text-yellow-500 dark:hover:text-yellow-400"
+            />
           </button>
         </div>
       </div>
