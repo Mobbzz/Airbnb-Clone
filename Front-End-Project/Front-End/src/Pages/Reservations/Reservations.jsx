@@ -7,7 +7,6 @@ import { faTrashAlt, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const Reservations = () => {
   const [reservations, setReservations] = useState([]);
   const [activeModal, setActiveModal] = useState(null);
-  const [isPaymentSelected, setIsPaymentSelected] = useState(false);
   const userState = useUser();
 
   useEffect(() => {
@@ -63,20 +62,38 @@ const Reservations = () => {
       .catch((error) => console.error('Error deleting reservation:', error));
   };
 
-  const handlePaymentSelection = () => {
+  const handlePaymentSelection = (reservationId) => {
     if (!userState.token) {
       alert('You need to be logged in to continue to payment.');
       return;
     }
 
-    setIsPaymentSelected(true);
     setActiveModal('payment');
+    setReservations((prevReservations) =>
+      prevReservations.map((reservation) =>
+        reservation._id === reservationId ? { ...reservation, isPaid: true } : reservation
+      )
+    );
+
+    // Save the updated reservation state to localStorage to persist payment status
+    const updatedReservations = reservations.map((reservation) =>
+      reservation._id === reservationId ? { ...reservation, isPaid: true } : reservation
+    );
+    localStorage.setItem('reservations', JSON.stringify(updatedReservations));
   };
+
+  useEffect(() => {
+    // Load reservations from localStorage on initial render
+    const savedReservations = localStorage.getItem('reservations');
+    if (savedReservations) {
+      setReservations(JSON.parse(savedReservations));
+    }
+  }, []);
 
   if (!userState.token) {
     return (
-      <div className="container mx-auto p-6 text-center text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 rounded-lg shadow-md">
-        <h1 className="text-4xl font-bold text-red-600 dark:text-red-400 mb-6">My Reservations</h1>
+      <div className="w-full p-6 bg-gray-100 dark:bg-gray-900 min-h-screen text-center text-gray-800 dark:text-gray-100 rounded-lg shadow-md">
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">My Reservations</h1>
         <p className="text-lg">
           You need to <a href="/login" className="text-red-600 dark:text-red-400 hover:underline">log in</a> or{' '}
           <a href="/register" className="text-red-600 dark:text-red-400 hover:underline">register</a> to view your reservations.
@@ -86,20 +103,20 @@ const Reservations = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 relative mb-4">
-      <h1 className="text-4xl font-bold text-center text-red-600 dark:text-red-400 mb-6">My Reservations</h1>
+    <div className="w-full p-6 bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
+      <h1 className="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100 text-center">My Reservations</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {reservations.map((reservation, index) => (
-          <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+          <div key={index} className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg shadow-md">
             {reservation.accommodation && (
               <>
                 <img
                   src={reservation.accommodation.imageUrl}
                   alt="Accommodation"
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
                 />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
                     {reservation.accommodation.title}
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 mb-2">
@@ -108,31 +125,28 @@ const Reservations = () => {
                   <p className="text-gray-600 dark:text-gray-300 mb-4">
                     Total Price: ${calculateTotalPrice(reservation.checkin, reservation.checkout, reservation.accommodation.price)}
                   </p>
-                  {!isPaymentSelected ? (
+                  {reservation.isPaid ? (
+                    <button
+                      onClick={() => handleRemoveReservation(reservation._id)}
+                      className="bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-600 dark:hover:bg-gray-700"
+                    >
+                      Cancel
+                    </button>
+                  ) : (
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleRemoveReservation(reservation._id)}
-                        className="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-red-300 dark:focus:ring-red-800"
+                        className="bg-red-600 dark:bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-700 dark:hover:bg-red-500"
                       >
                         <FontAwesomeIcon icon={faTrashAlt} /> Remove
                       </button>
                       <button
-                        onClick={handlePaymentSelection}
-                        className="bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-800"
+                        onClick={() => handlePaymentSelection(reservation._id)}
+                        className="bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700"
                       >
                         <FontAwesomeIcon icon={faArrowRight} /> Continue to Payment
                       </button>
                     </div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setIsPaymentSelected(false);
-                        handleRemoveReservation(reservation._id);
-                      }}
-                      className="bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-800"
-                    >
-                      Cancel
-                    </button>
                   )}
                 </div>
               </>
@@ -142,7 +156,7 @@ const Reservations = () => {
       </div>
       {activeModal === 'payment' && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-auto">
+          <div className="p-8 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-auto">
             <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">Select Your Payment Method</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <button
@@ -169,7 +183,7 @@ const Reservations = () => {
             </div>
             <button
               onClick={() => setActiveModal(null)}
-              className="mt-6 w-full bg-gray-500 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-gray-300 dark:focus:ring-gray-800"
+              className="mt-6 w-full bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-600 dark:hover:bg-gray-700"
             >
               Close
             </button>
@@ -178,12 +192,12 @@ const Reservations = () => {
       )}
       {activeModal === 'confirmation' && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-auto text-center">
+          <div className="p-8 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-auto text-center">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">Payment Successful</h2>
             <p className="text-lg text-gray-700 dark:text-gray-100 mb-6">Your payment has been processed. We will send a confirmation email shortly.</p>
             <button
               onClick={() => setActiveModal(null)}
-              className="mt-6 w-full bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:focus:ring-blue-800"
+              className="mt-6 w-full bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700"
             >
               Close
             </button>

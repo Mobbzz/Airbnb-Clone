@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAccommodations } from '../../Context/AccommodationContext';
 import { useUser } from '../../Context/UserContext';
+import Swal from 'sweetalert2';
 
 function DetailPage() {
   const userState = useUser();
@@ -90,7 +91,14 @@ function DetailPage() {
         });
 
         if (response.ok) {
-          navigate('/reservations');
+          Swal.fire({
+            title: 'Reservation Successful',
+            text: 'Thank you for your reservation! You will find your booking in your reservations.',
+            icon: 'success',
+            confirmButtonText: 'Close'
+          }).then(() => {
+            navigate('/');
+          });
         } else if (response.status === 409) {
           setErrorMessage('The selected dates are already booked. Please choose different dates.');
         } else {
@@ -109,12 +117,12 @@ function DetailPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div className="w-full p-4 md:p-6 bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
       {detailAccommodation ? (
         <>
-          <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">{detailAccommodation?.title}</h1>
-          <img src={mainImage} alt={detailAccommodation?.title} className="w-full h-96 object-cover rounded-lg shadow-md mb-6" />
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100 text-center">{detailAccommodation?.title}</h1>
+          <img src={mainImage} alt={detailAccommodation?.title} className="w-full h-72 md:h-96 object-cover rounded-lg shadow-md mb-6" />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             {[detailAccommodation?.imageUrl, ...(detailAccommodation?.images || [])]
               .filter((image) => image)
               .map((image, index) => (
@@ -123,31 +131,31 @@ function DetailPage() {
                   src={image}
                   alt={`${detailAccommodation?.title} ${index + 1}`}
                   onClick={() => setMainImage(image)}
-                  className="cursor-pointer rounded-lg shadow-sm hover:shadow-lg"
+                  className="cursor-pointer rounded-lg shadow-md hover:shadow-lg transition ease-in-out duration-300"
                 />
               ))}
           </div>
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-200 dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-md">
               <div className="mb-4">
-                <span className="font-semibold text-lg text-gray-700 dark:text-gray-300">Host:</span>
+                <span className="font-semibold text-md md:text-lg text-gray-700 dark:text-gray-300">Host:</span>
                 <div className="text-gray-600 dark:text-gray-300">{detailAccommodation?.host}</div>
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg text-gray-700 dark:text-gray-300">Location:</span>
+                <span className="font-semibold text-md md:text-lg text-gray-700 dark:text-gray-300">Location:</span>
                 <div className="text-gray-600 dark:text-gray-300">{detailAccommodation?.location}</div>
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg text-gray-700 dark:text-gray-300">Description:</span>
+                <span className="font-semibold text-md md:text-lg text-gray-700 dark:text-gray-300">Description:</span>
                 <div className="text-gray-600 dark:text-gray-300">{detailAccommodation?.description}</div>
               </div>
               <div className="mb-4">
-                <span className="font-semibold text-lg text-gray-700 dark:text-gray-300">Price:</span>
+                <span className="font-semibold text-md md:text-lg text-gray-700 dark:text-gray-300">Price:</span>
                 <div className="text-gray-600 dark:text-gray-300">${detailAccommodation?.price} per night</div>
               </div>
             </div>
 
-            <div className="flex-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div className="bg-gray-200 dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-md">
               <div className="mb-4">
                 <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Check-in:</label>
                 <DatePicker
@@ -157,7 +165,7 @@ function DetailPage() {
                   startDate={startDate}
                   endDate={endDate}
                   excludeDates={unavailableDates}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  className="w-full px-3 py-2 border border-gray-400 dark:border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-red-600 dark:focus:border-red-400 bg-gray-300 dark:bg-gray-700 text-black dark:text-gray-100"
                 />
               </div>
               <div className="mb-4">
@@ -170,7 +178,7 @@ function DetailPage() {
                   endDate={endDate}
                   minDate={startDate}
                   excludeDates={unavailableDates}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  className="w-full px-3 py-2 border border-gray-400 dark:border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-red-600 dark:focus:border-red-400 bg-gray-300 dark:bg-gray-700 text-black dark:text-gray-100"
                 />
               </div>
 
@@ -178,7 +186,7 @@ function DetailPage() {
 
               <button
                 onClick={handleReservation}
-                className="w-full bg-blue-500 dark:bg-blue-700 hover:bg-blue-600 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                className="w-full bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700"
               >
                 Reserve
               </button>

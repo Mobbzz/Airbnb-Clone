@@ -2,23 +2,23 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="container mx-auto p-10 text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 rounded-lg shadow-lg">
-      <h1 className="text-5xl font-bold text-red-600 dark:text-red-400 mb-8 text-center">About ThinAirbnb</h1>
+    <div className="w-full p-6 bg-gray-100 dark:bg-gray-900 min-h-screen overflow-x-hidden">
+      <h1 className="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-100 text-center">About ThinAirbnb</h1>
       <div className="mb-10 flex justify-center">
         <img
-          className="w-full max-w-4xl h-auto rounded-lg shadow-xl"
+          className="w-full max-w-4xl h-auto rounded-lg shadow-md hover:opacity-90 transition-opacity duration-300"
           src="https://www.woodworkingnetwork.com/sites/default/files/airbnb-hq-6.jpg"
           alt="ThinAirbnb Office Space"
         />
       </div>
-      <div className="space-y-6 text-lg leading-relaxed">
+      <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
         <p>
           Welcome to <span className="font-bold">ThinAirbnb</span>, where comfort, community, and creativity meet. We offer more than just accommodations—we offer experiences that inspire you to dream, create, and connect. ThinAirbnb is a place designed for those who seek more than just a bed to sleep in; it’s for those who wish to be part of a community that values growth, innovation, and collaboration.
         </p>
         <p>
           Our mission is to redefine the idea of travel and work by providing unique, stylish spaces that foster productivity and creativity. Whether you're a digital nomad, an entrepreneur, or someone who simply needs an inspiring getaway, ThinAirbnb has been crafted to provide you with the perfect balance between comfort and creativity.
         </p>
-        <p className="text-2xl font-semibold text-red-600 dark:text-red-400 text-center">
+        <p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 text-center">
           Why Choose ThinAirbnb?
         </p>
         <ul className="list-disc list-inside space-y-4">
