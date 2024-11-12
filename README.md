@@ -4,7 +4,7 @@ Teknologier som används
 
 Frontend: React.js (med React Router och Bootstrap)
 
-Backend: Node.js och Express.js
+Backend: Typescript.ts Node.js och Express.js
 
 Databas: MongoDB
 
