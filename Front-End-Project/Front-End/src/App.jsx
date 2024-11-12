@@ -21,7 +21,7 @@ function App() {
         <AccommodationProvider>
 
       <Navbar />
-      {/* <div className="container"> */}
+      {}
         <Routes>
           <Route index element={<Home />} />
           <Route path='about' element={<About />} />
@@ -34,7 +34,7 @@ function App() {
 
           
         </Routes>
-      {/* </div> */}
+      {}
       <Footer />
       </AccommodationProvider>
       </UserProvider>
