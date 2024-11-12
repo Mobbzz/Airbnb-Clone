@@ -1,4 +1,4 @@
-// accommodationController.ts
+
 import { Router, Request, Response } from 'express';
 import * as accommodationModel from '../Models/accommodationModel';
 

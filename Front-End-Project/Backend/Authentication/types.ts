@@ -1,4 +1,4 @@
-// ../Authentication/types.ts
+
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 

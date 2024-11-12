@@ -1,4 +1,4 @@
-// supportRequestController.ts
+
 import { Router, Request, Response } from 'express';
 import SupportRequest from '../Models/SupportRequest';
 

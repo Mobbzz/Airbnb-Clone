@@ -1,4 +1,4 @@
-// userController.ts
+
 import { Router, Request, Response } from 'express';
 import userModel from '../Models/userModel';
 import auth from '../Authentication/auth';

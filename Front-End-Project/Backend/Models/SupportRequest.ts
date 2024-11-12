@@ -1,4 +1,4 @@
-// supportRequestModel.ts
+
 import mongoose from 'mongoose';
 import supportRequestSchema from '../Schemas/SupportRequestSchema';
 

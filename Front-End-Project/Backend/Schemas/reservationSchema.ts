@@ -1,4 +1,4 @@
-// reservationSchema.ts
+
 import mongoose, { Schema, Document } from 'mongoose';
 import { IAccommodation } from './accommodationSchema';
 import { IUser } from './userSchema';

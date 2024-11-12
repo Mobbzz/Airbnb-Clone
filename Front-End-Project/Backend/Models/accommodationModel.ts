@@ -1,4 +1,4 @@
-// accommodationModel.ts
+
 import { Request, Response } from 'express';
 import Accommodation from '../Schemas/accommodationSchema';
 
