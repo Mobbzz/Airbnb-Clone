@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                                  /* Använd en nyare JavaScript-version som har bättre prestanda och stöd för modern syntax. */
+    "module": "commonjs",                                /* Använd CommonJS som modulformat eftersom Node.js använder detta. */
+    "outDir": "./dist",                                  /* Output-mappen där kompilatorn ska placera alla JavaScript-filer efter kompilering. */
+    "rootDir": "./",                                     /* Rotmappen för alla TypeScript-filer (din källkod). */
+    "strict": true,                                        /* Aktivera strikt typkontroll för att undvika vanliga fel. */
+    "esModuleInterop": true,                               /* Underlätta import av CommonJS-moduler. */
+    "moduleResolution": "node",                          /* Modulupplösning för Node.js för att enkelt kunna importera paket. */
+    "resolveJsonModule": true,                             /* Möjliggör import av JSON-filer. */
+    "skipLibCheck": true,                                  /* Skippa typkontroll av alla deklarationsfiler (*.d.ts). */
+    "forceConsistentCasingInFileNames": true,              /* Säkerställ att filnamnens versalisering är konsekvent. */
+    "strictNullChecks": true,                              /* Kontrollera att `null` och `undefined` hanteras korrekt. */
+    "noImplicitAny": true,                                 /* Förhindra användningen av implicita `any` typer för att säkerställa typens säkerhet. */
+    "strictPropertyInitialization": true,                  /* Kontrollera att alla egenskaper i klasser initialiseras korrekt. */
+    "allowSyntheticDefaultImports": true,                  /* Tillåt användning av standardimport även om modulen inte har någon. */
+    "experimentalDecorators": true                         /* Aktivera experimentellt stöd för dekoratorer om det behövs. */
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
