@@ -32,7 +32,7 @@ const NavbarComponent = () => {
         <div className={`navbar-logo ${showMobileMenu ? 'hidden' : 'block'} lg:block`}>
           <h1 className="text-3xl font-extrabold">
             <Link to="/" className="text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300">
-              StayBnB
+              Staybnb
             </Link>
           </h1>
         </div>
