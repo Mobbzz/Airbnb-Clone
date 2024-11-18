@@ -13,7 +13,7 @@ export const createNewReservation = async (req: CustomRequest, res: Response): P
 
   if (!user || !accommodation || !checkin || !checkout) {
     res.status(400).json({
-      message: 'You need to enter all the fields',
+      message: 'Something wet wrong',
     });
     return;
   }
