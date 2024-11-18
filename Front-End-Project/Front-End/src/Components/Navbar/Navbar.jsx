@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../Context/UserContext';
 import { useTheme } from '../../Context/ThemeContext';
@@ -10,6 +10,7 @@ const NavbarComponent = () => {
   const { theme, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const userMenuRef = useRef(null);
 
   const handleLogout = () => {
     localStorage.removeItem("TOKEN");
@@ -24,6 +25,20 @@ const NavbarComponent = () => {
   const toggleMobileMenu = () => {
     setShowMobileMenu((prevShowMobileMenu) => !prevShowMobileMenu);
   };
+
+  // Handle click outside of user menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-md w-full">
@@ -90,7 +105,7 @@ const NavbarComponent = () => {
               Logout
             </button>
           ) : (
-            <div className="relative">
+            <div className="relative" ref={userMenuRef}>
               <button
                 onClick={toggleUserMenu}
                 className="text-gray-800 dark:text-white focus:outline-none"
@@ -98,7 +113,7 @@ const NavbarComponent = () => {
                 <FontAwesomeIcon icon={faCircleUser} className="text-2xl" />
               </button>
               {showUserMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-800 dark:text-white py-2 rounded-lg shadow-lg transition ease-in-out duration-300 transform ${showUserMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-800 dark:text-white py-2 rounded-lg shadow-lg transition ease-in-out duration-300 transform opacity-100 scale-100">
                   <Link to="/login" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                     Login
                   </Link>
