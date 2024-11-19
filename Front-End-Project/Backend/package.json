@@ -18,8 +18,8 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.9.0",
     "nodemon": "^3.1.7",
-    "typescript": "^5.6.3",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

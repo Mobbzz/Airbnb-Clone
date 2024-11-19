@@ -1,9 +1,10 @@
 import { Router, Response, Request } from 'express';
 import { CustomRequest } from '../Authentication/types';
 import * as reservationModel from '../Models/reservationModel';
-import auth from '../Authentication/auth';
+import auth from '../Authentication/auth'; // Uppdaterad import från auth.ts
 
 const router = Router();
+
 
 router.post('/', auth.verifyToken, async (req: CustomRequest, res: Response) => {
   try {
@@ -20,6 +21,7 @@ router.get('/', async (req: CustomRequest, res: Response) => {
     res.status(500).json({ error: 'Failed to get reservations' });
   }
 });
+
 
 router.get('/:id', async (req: CustomRequest, res: Response) => {
   try {

@@ -7,13 +7,15 @@ interface CustomRequest extends Request {
 }
 
 export const createNewReservation = async (req: CustomRequest, res: Response): Promise<void> => {
+  console.log('User Data:', req.userData); // Lägg till denna rad för att logga userData
   const { accommodation, checkin, checkout } = req.body;
   const user = req.userData?._id;
   console.log('REQ BODY', req.body);
+  console.log('User', user);
 
   if (!user || !accommodation || !checkin || !checkout) {
     res.status(400).json({
-      message: 'Something wet wrong',
+      message: 'Something went wrong',
     });
     return;
   }
